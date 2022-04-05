@@ -20,6 +20,7 @@ const router = Router();
 router.get(
   "/",
   [
+    validateJwt,
     check("limit", "Limit must be a number").isNumeric(),
     check("offset", "Offset must be a number").isNumeric(),
   ],
