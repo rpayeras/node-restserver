@@ -53,13 +53,18 @@ const usersPatch = (req, res = response) => {
 const usersDelete = async (req, res = response) => {
   const { id } = req.params;
 
-  const user = await User.findByIdAndUpdate(id, {
-    state: false,
-  });
+  try {
+    const user = await User.findByIdAndUpdate(id, {
+      status: false,
+    });
 
-  res.json({
-    user,
-  });
+    res.json({
+      user,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({ msg: "This user not exists" });
+  }
 };
 
 module.exports = {

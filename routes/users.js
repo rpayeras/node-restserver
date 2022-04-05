@@ -7,12 +7,14 @@ const {
   usersDelete,
   usersPatch,
 } = require("../controllers/users");
-const validateFields = require("../middlewares/validate-fields");
 const {
   isValidRole,
   userMailNotExists,
   userExistsById,
 } = require("../helpers/db-validators");
+
+const { validationsResults, validateJwt, hasRole } = require("../middlewares");
+
 const router = Router();
 
 router.get(
@@ -39,7 +41,7 @@ router.post(
   [
     ...userValidations,
     check("email").custom(userMailNotExists),
-    validateFields,
+    validationsResults,
   ],
   usersPost
 );
@@ -52,14 +54,20 @@ router.put(
     ...userValidations,
     check("id", "Id invalid").isMongoId(),
     check("id").custom(userExistsById),
-    validateFields,
+    validationsResults,
   ],
   usersPut
 );
 
 router.delete(
   "/:id",
-  [check("id", "Id invalid").isMongoId(), check("id").custom(userExistsById)],
+  [
+    validateJwt,
+    hasRole("ADMIN_ROLE"),
+    check("id", "Id invalid").isMongoId(),
+    check("id").custom(userExistsById),
+    validationsResults,
+  ],
   usersDelete
 );
 
