@@ -23,6 +23,7 @@ router.get(
     validateJwt,
     check("limit", "Limit must be a number").isNumeric(),
     check("offset", "Offset must be a number").isNumeric(),
+    validationsResults,
   ],
   usersGet
 );
@@ -34,6 +35,7 @@ const userValidations = [
   }),
   check("email", "Email is required").isEmail(),
   check("role").custom(isValidRole),
+  validationsResults,
   // check("role", "Is not a valid role").isIn(["ADMIN_ROLE", "USER_ROLE"]),
 ];
 
