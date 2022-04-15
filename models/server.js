@@ -7,8 +7,28 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
 
-    this.usersPath = "/api/users";
-    this.authPath = "/api/auth";
+    this.routesConfig = [
+      {
+        path: "/api/users",
+        routePath: "../routes/users",
+      },
+      {
+        path: "/api/auth",
+        routePath: "../routes/auth",
+      },
+      {
+        path: "/api/categories",
+        routePath: "../routes/categories",
+      },
+      {
+        path: "/api/products",
+        routePath: "../routes/products",
+      },
+      {
+        path: "/api/search",
+        routePath: "../routes/search",
+      },
+    ];
 
     this.connectDb();
 
@@ -34,8 +54,9 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.usersPath, require("../routes/users"));
-    this.app.use(this.authPath, require("../routes/auth"));
+    this.routesConfig.forEach((route) => {
+      this.app.use(route.path, require(route.routePath));
+    });
   }
 
   listen() {

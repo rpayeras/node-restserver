@@ -13,7 +13,11 @@ const {
   userExistsById,
 } = require("../helpers/db-validators");
 
-const { validationsResults, validateJwt, hasRole } = require("../middlewares");
+const {
+  checkValidationsResult,
+  validateJwt,
+  hasRole,
+} = require("../middlewares");
 
 const router = Router();
 
@@ -23,7 +27,7 @@ router.get(
     validateJwt,
     check("limit", "Limit must be a number").isNumeric(),
     check("offset", "Offset must be a number").isNumeric(),
-    validationsResults,
+    checkValidationsResult,
   ],
   usersGet
 );
@@ -35,7 +39,7 @@ const userValidations = [
   }),
   check("email", "Email is required").isEmail(),
   check("role").custom(isValidRole),
-  validationsResults,
+  checkValidationsResult,
   // check("role", "Is not a valid role").isIn(["ADMIN_ROLE", "USER_ROLE"]),
 ];
 
@@ -44,7 +48,7 @@ router.post(
   [
     ...userValidations,
     check("email").custom(userMailNotExists),
-    validationsResults,
+    checkValidationsResult,
   ],
   usersPost
 );
@@ -57,7 +61,7 @@ router.put(
     ...userValidations,
     check("id", "Id invalid").isMongoId(),
     check("id").custom(userExistsById),
-    validationsResults,
+    checkValidationsResult,
   ],
   usersPut
 );
@@ -69,7 +73,7 @@ router.delete(
     hasRole("ADMIN_ROLE"),
     check("id", "Id invalid").isMongoId(),
     check("id").custom(userExistsById),
-    validationsResults,
+    checkValidationsResult,
   ],
   usersDelete
 );
