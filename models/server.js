@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("../database/config");
+const fileUpload = require("express-fileupload");
 
 class Server {
   constructor() {
@@ -28,6 +29,10 @@ class Server {
         path: "/api/search",
         routePath: "../routes/search",
       },
+      {
+        path: "/api/uploads",
+        routePath: "../routes/uploads",
+      },
     ];
 
     this.connectDb();
@@ -44,6 +49,13 @@ class Server {
   middlewares() {
     this.app.use(express.static("public"));
     this.app.use(express.json());
+    this.app.use(
+      fileUpload({
+        useTempFiles: true,
+        tempFileDir: "/tmp/",
+        createParentPath: true,
+      })
+    );
 
     // const corsOptions = {
     //   origin: "http://localhost:3000",
