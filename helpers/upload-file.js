@@ -23,10 +23,11 @@ const uploadFile = (
 
     file.mv(uploadPath, function (err) {
       if (err) {
-        reject(new Error(err));
+        console.log(err);
+        reject(new Error("Error on upload a file"));
       }
 
-      resolve("File uploaded to " + nameTemp);
+      resolve(nameTemp);
     });
   });
 };
