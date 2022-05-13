@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app",
-    "dev": "nodemon app"
+    "dev": "nodemon app",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
+    "husky": "^8.0.1",
     "prettier": "^2.6.1"
   }
 }
